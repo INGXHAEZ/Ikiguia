@@ -10,6 +10,7 @@ from .forms import IkigaiForm
 from .models import IkigaiResult
 from .models import Carrera
 from django.db.models import Q
+from .models import Mentor
 
 def home(request):
     return render(request, 'home.html')
@@ -116,3 +117,24 @@ def carreras_recomendadas(request):
         carreras = Carrera.objects.filter(query).distinct()
 
     return render(request, 'carreras.html', {'carreras': carreras})
+
+@login_required
+def mentores_recomendados(request):
+    ikigai_result = IkigaiResult.objects.filter(usuario=request.user).last()
+    mentores = []
+
+    if ikigai_result:
+        respuestas = ikigai_result.respuestas
+        palabras_clave = list(respuestas.values())
+        
+        # Buscar carreras relacionadas
+        query = Q()
+        for palabra in palabras_clave:
+            query |= Q(habilidades_clave__icontains=palabra)
+
+        carreras = Carrera.objects.filter(query).distinct()
+
+        # Obtener mentores que estén relacionados con esas carreras
+        mentores = Mentor.objects.filter(carreras__in=carreras).distinct()
+
+    return render(request, 'mentores.html', {'mentores': mentores})

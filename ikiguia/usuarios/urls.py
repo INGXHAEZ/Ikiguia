@@ -10,4 +10,5 @@ urlpatterns = [
     path('test/', views.test_psicometrico, name='test'),
     path('test-ikigai/', views.test_ikigai, name='test_ikigai'),
      path('carreras/', views.carreras_recomendadas, name='carreras'),
+    path('mentores/', views.mentores_recomendados, name='mentores'),
 ]

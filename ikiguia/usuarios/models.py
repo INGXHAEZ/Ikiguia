@@ -25,3 +25,13 @@ class Carrera(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Mentor(models.Model):
+    nombre = models.CharField(max_length=100)
+    especialidad = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    contacto = models.CharField(max_length=100, blank=True)  # NUEVO CAMPO
+    carreras = models.ManyToManyField(Carrera)
+
+    def __str__(self):
+        return self.nombre

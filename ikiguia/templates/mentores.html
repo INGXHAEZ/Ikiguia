@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>👨‍🏫 Mentores recomendados según tu perfil</h2>
+
+{% if mentores %}
+  <div class="mentores-grid">
+    {% for mentor in mentores %}
+      <div class="mentor-card">
+        <h3>{{ mentor.nombre }}</h3>
+        <p><strong>Especialidad:</strong> {{ mentor.especialidad }}</p>
+        <p><strong>Descripción:</strong> {{ mentor.descripcion }}</p>
+        <p><strong>Carreras asociadas:</strong>
+          {% for carrera in mentor.carreras.all %}
+            {{ carrera.nombre }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% if mentor.contacto %}
+          <p><strong>Contacto:</strong> {{ mentor.contacto }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No hay mentores recomendados aún. Asegúrate de completar el test IKIGAI.</p>
+{% endif %}
+{% endblock %}

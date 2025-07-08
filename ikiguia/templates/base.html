@@ -14,7 +14,7 @@
       <a href="{% url 'test' %}">Test Psicometrico</a>
       <a href="{% url 'test_ikigai' %}">Test Ikigai</a>
       <a href="{% url 'carreras' %}">Carreras recomendadas</a>
-      <a href="#">Mentores</a>
+      <a href="{% url 'mentores' %}">Mentores</a>
       <a href="#">Contacto</a>
 
       {% if user.is_authenticated %}
