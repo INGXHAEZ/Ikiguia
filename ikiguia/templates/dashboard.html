@@ -5,7 +5,6 @@
   <h2 class="dashboard-title">¡Bienvenido, {{ user.username }}! 🎉</h2>
   <p class="dashboard-subtitle">Tu camino vocacional comienza hoy</p>
 
-  <!-- Sección de tests -->
   <div class="card-grid">
    
     <a href="{% url 'test' %}" class="card-link">
@@ -13,16 +12,20 @@
       <h3>🧪Test Psicometrico</h3>
     </div>
     </a>
+    <a href="{% url 'perfil_vocacional' %}" class="card-link">
+    <div class="card">
+      <h3>👤Perfil Vocacional</h3>
+    </div>
+    </a>
     <a href="{% url 'test_ikigai' %}" class="card-link">
     <div class="card">
-      <h3>🧭 Test IKIGAI</h3>
+      <h3>🧭Test IKIGAI</h3>
     </div>
     </a>
   </div>
 
-  <!-- Último resultado del test -->
   {% if user.testresult_set.last %}
-  <div class="card wide">
+  <div class="dashboard-card">
     <h3>🧠 Último resultado del Test Psicométrico</h3>
     <ul class="test-list">
       {% with respuestas=user.testresult_set.last.respuestas %}
@@ -44,9 +47,8 @@
     <p>❗ No has completado ningún test aún.</p>
   {% endif %}
 
-  <!-- IKIGAI -->
   {% if user.ikigairesult_set.last %}
-  <div class="card wide">
+  <div class="dashboard-card">
     <h3>🧭 Tu Mapa IKIGAI Personal</h3>
     <div class="ikigai-grid">
       <div>
@@ -110,6 +112,28 @@
   </div>
 {% else %}
   <p>No hay recomendaciones aún. Completa el test para obtener sugerencias.</p>
+{% endif %}
+{% if mentores %}
+  <h3>👨‍🏫 Mentores recomendados</h3>
+  <div class="mentores-grid">
+    {% for mentor in mentores %}
+      <div class="mentor-card">
+        <h4>{{ mentor.nombre }}</h4>
+        <p><strong>Especialidad:</strong> {{ mentor.especialidad }}</p>
+        <p><strong>Descripción:</strong> {{ mentor.descripcion }}</p>
+        <p><strong>Carreras:</strong>
+          {% for carrera in mentor.carreras.all %}
+            {{ carrera.nombre }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% if mentor.contacto %}
+          <p><strong>Contacto:</strong> {{ mentor.contacto }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No se encontraron mentores recomendados. Asegúrate de completar tu test IKIGAI.</p>
 {% endif %}
 
 </div>

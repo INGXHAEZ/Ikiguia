@@ -12,6 +12,7 @@ urlpatterns = [
     path('carreras/', views.carreras_recomendadas, name='carreras'),
     path('mentores/', views.mentores_recomendados, name='mentores'),
     path('agendar-mentoria/', views.agendar_mentoria, name='agendar_mentoria'),
-    path('perfil/', views.perfil_usuario, name='perfil'),
+    path('perfil-vocacional/', views.perfil_vocacional, name='perfil_vocacional'),
     path('perfil/editar/', views.editar_perfil, name='editar_perfil'),
+    path('perfil-vocacional/pdf/', views.descargar_perfil_pdf, name='descargar_perfil'),
 ]

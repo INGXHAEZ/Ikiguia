@@ -15,6 +15,9 @@ from .forms import MentoriaForm
 from .models import Mentoria
 from django.contrib import messages
 from .forms import UserProfileForm
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'home.html')
@@ -81,6 +84,18 @@ def dashboard(request):
         for palabra in palabras_clave:
             query |= Q(habilidades_clave__icontains=palabra)
         carreras = Carrera.objects.filter(query).distinct()
+        
+    mentores = []
+    if ikigai_result:
+        respuestas = ikigai_result.respuestas
+        palabras_clave = list(respuestas.values())
+
+        query = Q()
+        for palabra in palabras_clave:
+            query |= Q(habilidades_clave__icontains=palabra)
+
+        carreras_ikigai = Carrera.objects.filter(query).distinct()
+        mentores = Mentor.objects.filter(carreras__in=carreras_ikigai).distinct()
 
     return render(request, 'dashboard.html', {
         'resultado': resultado,
@@ -88,6 +103,7 @@ def dashboard(request):
         'ikigai': ikigai,
         'mentorias': mentorias,
         'carreras': carreras,  
+        'mentores': mentores,
     })
 
 
@@ -184,4 +200,113 @@ def editar_perfil(request):
 
 @login_required
 def perfil_usuario(request):
-    return render(request, 'perfil.html', {'usuario': request.user})
+    return render(request, 'perfil_vocacional.html', {'usuario': request.user})
+
+@login_required
+def perfil_vocacional(request):
+    user = request.user
+    test_result = TestResult.objects.filter(usuario=user).last()
+    ikigai_result = IkigaiResult.objects.filter(usuario=user).last()
+    carreras_afines = []
+
+    fortalezas = []
+    ikigai = {}
+
+    if test_result:
+        respuestas = test_result.respuestas
+        fortalezas = [
+            ("Trabajo en equipo", respuestas.get("pregunta1", 0)),
+            ("Resolución de problemas", respuestas.get("pregunta2", 0)),
+            ("Tareas prácticas", respuestas.get("pregunta3", 0)),
+            ("Interés científico", respuestas.get("pregunta4", 0)),
+            ("Ayuda a los demás", respuestas.get("pregunta5", 0)),
+        ]
+        fortalezas.sort(key=lambda x: int(x[1]), reverse=True)
+
+    if ikigai_result:
+        datos = ikigai_result.respuestas
+        ikigai_claves = list(datos.values())
+        ikigai = {
+            'ama': [datos.get('ama_1', ''), datos.get('ama_2', '')],
+            'bueno': [datos.get('bueno_1', ''), datos.get('bueno_2', '')],
+            'pagado': [datos.get('pagado_1', ''), datos.get('pagado_2', '')],
+            'necesario': [datos.get('necesario_1', ''), datos.get('necesario_2', '')],
+        }
+
+        query = Q()
+        for palabra in ikigai_claves:
+            query |= Q(habilidades_clave__icontains=palabra)
+
+        carreras = Carrera.objects.filter(query).distinct()
+
+        for carrera in carreras:
+            coincidencias = sum(1 for palabra in ikigai_claves if palabra.lower() in carrera.habilidades_clave.lower())
+            afinidad = round((coincidencias / len(ikigai_claves)) * 100)
+            carreras_afines.append((carrera, afinidad))
+
+        carreras_afines.sort(key=lambda x: x[1], reverse=True)
+
+    return render(request, 'perfil_vocacional.html', {
+        'fortalezas': fortalezas,
+        'ikigai': ikigai,
+        'carreras_afines': carreras_afines,
+        'usuario': request.user
+    })
+
+
+@login_required
+def descargar_perfil_pdf(request):
+    user = request.user
+    test_result = TestResult.objects.filter(usuario=user).last()
+    ikigai_result = IkigaiResult.objects.filter(usuario=user).last()
+
+    fortalezas = []
+    ikigai = {}
+    carreras_afines = []
+
+    if test_result:
+        respuestas = test_result.respuestas
+        fortalezas = [
+            ("Trabajo en equipo", respuestas.get("pregunta1", 0)),
+            ("Resolución de problemas", respuestas.get("pregunta2", 0)),
+            ("Tareas prácticas", respuestas.get("pregunta3", 0)),
+            ("Interés científico", respuestas.get("pregunta4", 0)),
+            ("Ayuda a los demás", respuestas.get("pregunta5", 0)),
+        ]
+        fortalezas.sort(key=lambda x: int(x[1]), reverse=True)
+
+    if ikigai_result:
+        datos = ikigai_result.respuestas
+        claves = list(datos.values())
+        ikigai = {
+            'ama': [datos.get('ama_1', ''), datos.get('ama_2', '')],
+            'bueno': [datos.get('bueno_1', ''), datos.get('bueno_2', '')],
+            'pagado': [datos.get('pagado_1', ''), datos.get('pagado_2', '')],
+            'necesario': [datos.get('necesario_1', ''), datos.get('necesario_2', '')],
+        }
+
+        query = Q()
+        for palabra in claves:
+            query |= Q(habilidades_clave__icontains=palabra)
+
+        carreras = Carrera.objects.filter(query).distinct()
+
+        for carrera in carreras:
+            coincidencias = sum(1 for palabra in claves if palabra.lower() in carrera.habilidades_clave.lower())
+            afinidad = round((coincidencias / len(claves)) * 100)
+            carreras_afines.append((carrera, afinidad))
+
+        carreras_afines.sort(key=lambda x: x[1], reverse=True)
+
+    template = get_template('perfil_vocacional_pdf.html')
+    html = template.render({
+        'usuario': user,
+        'fortalezas': fortalezas,
+        'ikigai': ikigai,
+        'carreras_afines': carreras_afines
+    })
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="perfil_vocacional.pdf"'
+    pisa.CreatePDF(html, dest=response)
+    return response

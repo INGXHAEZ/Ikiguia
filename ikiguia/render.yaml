@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ikiguia
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn ikiguia.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: ikiguia.settings
+      - key: PYTHON_VERSION
+        value: 3.10

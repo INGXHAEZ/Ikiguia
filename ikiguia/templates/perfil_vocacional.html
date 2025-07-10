@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="perfil-vocacional-container">
+  <h2>👤 Tu Perfil Vocacional</h2>
+<div class="perfil-wrapper">
+  <div class="perfil-card">
+    <p><strong>👤 Usuario:</strong> {{ usuario.username }}</p>
+    <p><strong>📛 Nombre:</strong> {{ usuario.first_name }}</p>
+    <p><strong>🧾 Apellido:</strong> {{ usuario.last_name }}</p>
+    <p><strong>📧 Email:</strong> {{ usuario.email }}</p>
+  </div>
+
+  <a class="btn perfil-btn" href="{% url 'editar_perfil' %}">✏️ Editar Perfil</a>
+</div>
+  <div class="dashboard-card">
+    <h3>💪 Fortalezas destacadas</h3>
+    <ul>
+      {% for nombre, valor in fortalezas|slice:":3" %}
+        <li><strong>{{ nombre }}:</strong> {{ valor }}/5</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>🌟 Propósito IKIGAI</h3>
+    <div class="ikigai-grid">
+      <div>
+        <h4>❤️ Lo que amas</h4>
+        {% for item in ikigai.ama %}<p>• {{ item }}</p>{% endfor %}
+      </div>
+      <div>
+        <h4>💪 Lo que haces bien</h4>
+        {% for item in ikigai.bueno %}<p>• {{ item }}</p>{% endfor %}
+      </div>
+      <div>
+        <h4>💰 Por lo que te pueden pagar</h4>
+        {% for item in ikigai.pagado %}<p>• {{ item }}</p>{% endfor %}
+      </div>
+      <div>
+        <h4>🌍 Lo que el mundo necesita</h4>
+        {% for item in ikigai.necesario %}<p>• {{ item }}</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="card wide">
+    <h3>🎓 Carreras sugeridas y afinidad</h3>
+    <table>
+      <tr><th>Nombre</th><th>Área</th><th>Afinidad</th></tr>
+      {% for carrera, afinidad in carreras_afines %}
+        <tr>
+          <td>{{ carrera.nombre }}</td>
+          <td>{{ carrera.area }}</td>
+          <td><strong>{{ afinidad }}%</strong></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <a href="{% url 'descargar_perfil' %}" class="cta-button">⬇ Descargar Perfil Vocacional (PDF)</a>
+</div>
+{% endblock %}

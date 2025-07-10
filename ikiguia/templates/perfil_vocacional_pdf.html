@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: DejaVu Sans, sans-serif; font-size: 14px; }
+    h1, h2, h3 { color: #333; }
+    .section { margin-bottom: 20px; }
+    .card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+  </style>
+</head>
+<body>
+
+  <h1>📄 Perfil Vocacional de {{ usuario.get_full_name|default:usuario.username }}</h1>
+
+  <div class="section">
+    <h2>💪 Fortalezas destacadas</h2>
+    <ul>
+      {% for nombre, valor in fortalezas %}
+        <li>{{ nombre }}: {{ valor }}/5</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🧭 Propósito IKIGAI</h2>
+    <div class="card"><strong>❤️ Lo que amas:</strong> {{ ikigai.ama.0 }}, {{ ikigai.ama.1 }}</div>
+    <div class="card"><strong>💪 Lo que haces bien:</strong> {{ ikigai.bueno.0 }}, {{ ikigai.bueno.1 }}</div>
+    <div class="card"><strong>💰 Por lo que te pueden pagar:</strong> {{ ikigai.pagado.0 }}, {{ ikigai.pagado.1 }}</div>
+    <div class="card"><strong>🌍 Lo que el mundo necesita:</strong> {{ ikigai.necesario.0 }}, {{ ikigai.necesario.1 }}</div>
+  </div>
+
+  <div class="section">
+    <h2>🎓 Carreras sugeridas con afinidad</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Carrera</th>
+          <th>Área</th>
+          <th>Afinidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for carrera, afinidad in carreras_afines %}
+          <tr>
+            <td>{{ carrera.nombre }}</td>
+            <td>{{ carrera.area }}</td>
+            <td>{{ afinidad }}%</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

@@ -14,10 +14,7 @@
   <nav class="nav-links">
     {% if user.is_authenticated %}
       <a href="{% url 'dashboard' %}">Inicio</a>
-      <a href="{% url 'carreras' %}">Carreras</a>
-      <a href="{% url 'mentores' %}">Mentores</a>
-      <a href="{% url 'agendar_mentoria' %}">Agendar</a>
-      <a href="{% url 'perfil' %}">Perfil</a>
+      <a href="{% url 'agendar_mentoria' %}">Agendar Mentoria</a>
       <a href="{% url 'logout' %}">Cerrar Sesion</a>
     {% else %}
       <a href="{% url 'home' %}">Inicio</a>

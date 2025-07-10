@@ -1,4 +1,3 @@
-/* Paleta basada en Figma */
 :root {
   --primary-color: #1A73E8;
   --primary-hover: #1664c4;
@@ -7,7 +6,6 @@
   --gray-border: #d1d5db;
 }
 
-/* Estilo general del body */
 body {
   background-color: var(--bg-light);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,7 +13,6 @@ body {
   padding: 0;
 }
 
-/* Contenedor principal */
 .container {
   max-width: 900px;
   margin: 40px auto;
@@ -25,7 +22,6 @@ body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Título centrado */
 h2 {
   text-align: center;
   color: var(--text-dark);
@@ -33,27 +29,23 @@ h2 {
   margin-bottom: 25px;
 }
 
-/* Formulario */
 form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Grupo de campos */
 .form-group {
   display: flex;
   flex-direction: column;
 }
 
-/* Etiquetas */
 label {
   font-weight: 600;
   margin-bottom: 6px;
   color: var(--text-dark);
 }
 
-/* Inputs modernos */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -71,7 +63,6 @@ textarea {
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Estilo del botón */
 button, .btn, .btn-agendar {
   background-color: var(--primary-color);
   color: #fff;
@@ -88,7 +79,6 @@ button:hover, .btn:hover, .btn-agendar:hover {
   background-color: var(--primary-hover);
 }
 
-/* Grid de turnos */
 .turno-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -96,7 +86,6 @@ button:hover, .btn:hover, .btn-agendar:hover {
   margin-top: 30px;
 }
 
-/* Tarjeta de turno */
 .turno-card {
   border: 1px solid var(--gray-border);
   border-radius: 10px;
@@ -108,14 +97,12 @@ button:hover, .btn:hover, .btn-agendar:hover {
   gap: 8px;
 }
 
-/* Título de cada turno */
 .turno-card h3 {
   margin: 0 0 8px 0;
   font-size: 18px;
   color: var(--primary-color);
 }
 
-/* Párrafos dentro de la tarjeta */
 .turno-card p {
   margin: 2px 0;
   color: #374151;
@@ -180,6 +167,7 @@ button:hover, .btn:hover, .btn-agendar:hover {
 .card.wide {
   padding: 30px;
   margin-bottom: 40px;
+  align-items: center;
 }
 
 .emoji {
@@ -281,7 +269,6 @@ button:hover, .btn:hover, .btn-agendar:hover {
   line-height: 1.5;
 }
 
-/* === NAVBAR === */
 .navbar {
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
@@ -521,4 +508,224 @@ button:hover, .btn:hover, .btn-agendar:hover {
   width: 300px;
   max-width: 700px;
   margin: 0 auto;
+}
+
+.mentores-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.mentor-card {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mentor-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard-card {
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.perfil-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.perfil-titulo {
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.perfil-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 500px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.perfil-card p {
+  margin: 10px 0;
+}
+
+.perfil-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.perfil-btn:hover {
+  background-color: #2563eb;
+}
+
+.perfil-vocacional-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.perfil-vocacional-container h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.ikigai-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 10px;
+}
+
+.form-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.form-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.form-description {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.ikigai-form .form-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-error {
+  color: red;
+  font-size: 14px;
+}
+
+.cta-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 12px 24px;
+  background-color: #0066cc;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background-color: #004999;
+}
+
+.form-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.form-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.form-description {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.vocacional-form .form-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-error {
+  color: red;
+  font-size: 14px;
+}
+
+.cta-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 12px 24px;
+  background-color: #0066cc;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background-color: #004999;
 }
