@@ -47,13 +47,15 @@
     <h3>🎓 Carreras sugeridas y afinidad</h3>
     <table>
       <tr><th>Nombre</th><th>Área</th><th>Afinidad</th></tr>
-      {% for carrera, afinidad in carreras_afines %}
-        <tr>
-          <td>{{ carrera.nombre }}</td>
-          <td>{{ carrera.area }}</td>
-          <td><strong>{{ afinidad }}%</strong></td>
-        </tr>
-      {% endfor %}
+      {% for carrera, afinidad in carreras %}
+  <div class="carrera-card">
+    <h4>📘 {{ carrera.nombre }}</h4>
+    <p><strong>Área:</strong> {{ carrera.area }}</p>
+    <p>{{ carrera.descripcion }}</p>
+    <p><strong>🔍 Afinidad:</strong> {{ afinidad }}%</p>
+  </div>
+{% endfor %}
+
     </table>
   </div>
 

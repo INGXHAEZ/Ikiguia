@@ -20,8 +20,8 @@ class IkigaiResult(models.Model):
 class Carrera(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField()
-    area = models.CharField(max_length=50)  # Ej: salud, tecnología, social
-    habilidades_clave = models.TextField()  # Separadas por coma
+    area = models.CharField(max_length=50)
+    habilidades_clave = models.JSONField()  
 
     def __str__(self):
         return self.nombre
