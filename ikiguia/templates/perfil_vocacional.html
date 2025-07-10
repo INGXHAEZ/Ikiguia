@@ -2,16 +2,17 @@
 {% block content %}
 <div class="perfil-vocacional-container">
   <h2>👤 Tu Perfil Vocacional</h2>
-<div class="perfil-wrapper">
-  <div class="perfil-card">
-    <p><strong>👤 Usuario:</strong> {{ usuario.username }}</p>
-    <p><strong>📛 Nombre:</strong> {{ usuario.first_name }}</p>
-    <p><strong>🧾 Apellido:</strong> {{ usuario.last_name }}</p>
-    <p><strong>📧 Email:</strong> {{ usuario.email }}</p>
+  <div class="perfil-wrapper">
+    <div class="perfil-card">
+      <p><strong>👤 Usuario:</strong> {{ usuario.username }}</p>
+      <p><strong>📛 Nombre:</strong> {{ usuario.first_name }}</p>
+      <p><strong>🧾 Apellido:</strong> {{ usuario.last_name }}</p>
+      <p><strong>📧 Email:</strong> {{ usuario.email }}</p>
+    </div>
+
+    <a class="btn perfil-btn" href="{% url 'editar_perfil' %}">✏️ Editar Perfil</a>
   </div>
 
-  <a class="btn perfil-btn" href="{% url 'editar_perfil' %}">✏️ Editar Perfil</a>
-</div>
   <div class="dashboard-card">
     <h3>💪 Fortalezas destacadas</h3>
     <ul>
@@ -45,18 +46,14 @@
 
   <div class="card wide">
     <h3>🎓 Carreras sugeridas y afinidad</h3>
-    <table>
-      <tr><th>Nombre</th><th>Área</th><th>Afinidad</th></tr>
-      {% for carrera, afinidad in carreras %}
-  <div class="carrera-card">
-    <h4>📘 {{ carrera.nombre }}</h4>
-    <p><strong>Área:</strong> {{ carrera.area }}</p>
-    <p>{{ carrera.descripcion }}</p>
-    <p><strong>🔍 Afinidad:</strong> {{ afinidad }}%</p>
-  </div>
-{% endfor %}
-
-    </table>
+    {% for carrera, afinidad in carreras_afines %}
+      <div class="carrera-card">
+        <h4>📘 {{ carrera.nombre }}</h4>
+        <p><strong>Área:</strong> {{ carrera.area }}</p>
+        <p>{{ carrera.descripcion }}</p>
+        <p><strong>🔍 Afinidad:</strong> {{ afinidad }}%</p>
+      </div>
+    {% endfor %}
   </div>
 
   <a href="{% url 'descargar_perfil' %}" class="cta-button">⬇ Descargar Perfil Vocacional (PDF)</a>
