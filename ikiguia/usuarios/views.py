@@ -11,6 +11,10 @@ from .models import IkigaiResult
 from .models import Carrera
 from django.db.models import Q
 from .models import Mentor
+from .forms import MentoriaForm
+from .models import Mentoria
+from django.contrib import messages
+from .forms import UserProfileForm
 
 def home(request):
     return render(request, 'home.html')
@@ -44,7 +48,8 @@ def cerrar_sesion(request):
 def dashboard(request):
     resultado = TestResult.objects.filter(usuario=request.user).last()
     ikigai_result = IkigaiResult.objects.filter(usuario=request.user).last()
-
+    mentorias = Mentoria.objects.filter(usuario=request.user)
+     
     analisis = None
     if resultado:
         respuestas = resultado.respuestas
@@ -58,8 +63,9 @@ def dashboard(request):
         else:
             analisis = "Parece que necesitas mayor reflexión sobre tus intereses. Prueba el test IKIGAI para profundizar en tu propósito."
 
-    # Procesar el resultado IKIGAI si existe
+    # Procesar resultado IKIGAI
     ikigai = {}
+    carreras = []
     if ikigai_result:
         datos = ikigai_result.respuestas
         ikigai = {
@@ -69,10 +75,19 @@ def dashboard(request):
             'necesario': [datos.get('necesario_1', ''), datos.get('necesario_2', '')],
         }
 
+        # 🔍 Recomendaciones de carrera basadas en respuestas IKIGAI
+        palabras_clave = list(datos.values())
+        query = Q()
+        for palabra in palabras_clave:
+            query |= Q(habilidades_clave__icontains=palabra)
+        carreras = Carrera.objects.filter(query).distinct()
+
     return render(request, 'dashboard.html', {
         'resultado': resultado,
         'analisis': analisis,
-        'ikigai': ikigai
+        'ikigai': ikigai,
+        'mentorias': mentorias,
+        'carreras': carreras,  
     })
 
 
@@ -138,3 +153,35 @@ def mentores_recomendados(request):
         mentores = Mentor.objects.filter(carreras__in=carreras).distinct()
 
     return render(request, 'mentores.html', {'mentores': mentores})
+
+@login_required
+def agendar_mentoria(request):
+    if request.method == 'POST':
+        form = MentoriaForm(request.POST, initial={'usuario': request.user})
+        if form.is_valid():
+            mentoria = form.save(commit=False)
+            mentoria.usuario = request.user
+            mentoria.save()
+            messages.success(request, '✅ ¡Mentoría agendada exitosamente!')
+            return redirect('dashboard')
+        else:
+             messages.error(request, '⚠️ No se pudo agendar, dia y hora ocupados')
+    else:
+        form = MentoriaForm(initial={'usuario': request.user})
+    return render(request, 'agendar_mentoria.html', {'form': form})
+
+@login_required
+def editar_perfil(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')  
+    else:
+        form = UserProfileForm(instance=user)
+    return render(request, 'editar_perfil.html', {'form': form})
+
+@login_required
+def perfil_usuario(request):
+    return render(request, 'perfil.html', {'usuario': request.user})

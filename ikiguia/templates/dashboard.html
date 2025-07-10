@@ -1,61 +1,116 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Bienvenido, {{ user.username }} 🎉</h2>
-<p>Este es tu panel personal. Pronto podrás acceder a tus tests y resultados.</p>
-{% if user.testresult_set.last %}
- <h3>Último resultado del test:</h3>
-<ul>
-  {% with respuestas=user.testresult_set.last.respuestas %}
-    <li><strong>Me gusta trabajar en equipo:</strong> {{ respuestas.pregunta1 }}/5</li>
-    <li><strong>Disfruto resolver problemas complejos:</strong> {{ respuestas.pregunta2 }}/5</li>
-    <li><strong>Prefiero tareas prácticas y manuales:</strong> {{ respuestas.pregunta3 }}/5</li>
-    <li><strong>Me interesan los temas científicos:</strong> {{ respuestas.pregunta4 }}/5</li>
-    <li><strong>Me gusta ayudar a otras personas:</strong> {{ respuestas.pregunta5 }}/5</li>
-  {% endwith %}
-</ul>
-{% if analisis %}
-  <h3>Análisis de tu perfil:</h3>
-  <p>{{ analisis }}</p>
-{% endif %}
+<div class="dashboard-container">
 
-{% else %}
-  <p>No has completado ningún test aún.</p>
-{% endif %}
-{% if user.ikigairesult_set.last %}
-  <section class="ikigai-panel">
+  <h2 class="dashboard-title">¡Bienvenido, {{ user.username }}! 🎉</h2>
+  <p class="dashboard-subtitle">Tu camino vocacional comienza hoy</p>
+
+  <!-- Sección de tests -->
+  <div class="card-grid">
+   
+    <a href="{% url 'test' %}" class="card-link">
+    <div class="card">
+      <h3>🧪Test Psicometrico</h3>
+    </div>
+    </a>
+    <a href="{% url 'test_ikigai' %}" class="card-link">
+    <div class="card">
+      <h3>🧭 Test IKIGAI</h3>
+    </div>
+    </a>
+  </div>
+
+  <!-- Último resultado del test -->
+  {% if user.testresult_set.last %}
+  <div class="card wide">
+    <h3>🧠 Último resultado del Test Psicométrico</h3>
+    <ul class="test-list">
+      {% with respuestas=user.testresult_set.last.respuestas %}
+      <li><strong>🤝 Me gusta trabajar en equipo:</strong> {{ respuestas.pregunta1 }}/5</li>
+      <li><strong>🧩 Disfruto resolver problemas complejos:</strong> {{ respuestas.pregunta2 }}/5</li>
+      <li><strong>🛠️ Prefiero tareas prácticas y manuales:</strong> {{ respuestas.pregunta3 }}/5</li>
+      <li><strong>🔬 Me interesan los temas científicos:</strong> {{ respuestas.pregunta4 }}/5</li>
+      <li><strong>💞 Me gusta ayudar a otras personas:</strong> {{ respuestas.pregunta5 }}/5</li>
+      {% endwith %}
+    </ul>
+    {% if analisis %}
+      <div class="test-analysis">
+        <h4>📊 Análisis de tu perfil:</h4>
+        <p>{{ analisis }}</p>
+      </div>
+    {% endif %}
+  </div>
+  {% else %}
+    <p>❗ No has completado ningún test aún.</p>
+  {% endif %}
+
+  <!-- IKIGAI -->
+  {% if user.ikigairesult_set.last %}
+  <div class="card wide">
     <h3>🧭 Tu Mapa IKIGAI Personal</h3>
+    <div class="ikigai-grid">
+      <div>
+        <h4>❤️ Lo que amas</h4>
+        {% for item in ikigai.ama %}
+          <p>• {{ item }}</p>
+        {% endfor %}
+      </div>
+      <div>
+        <h4>💪 Lo que haces bien</h4>
+        {% for item in ikigai.bueno %}
+          <p>• {{ item }}</p>
+        {% endfor %}
+      </div>
+      <div>
+        <h4>💰 Por lo que pueden pagarte</h4>
+        {% for item in ikigai.pagado %}
+          <p>• {{ item }}</p>
+        {% endfor %}
+      </div>
+      <div>
+        <h4>🌍 Lo que el mundo necesita</h4>
+        {% for item in ikigai.necesario %}
+          <p>• {{ item }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <p>❗ Aún no has completado el test IKIGAI.</p>
+  {% endif %}
 
-    <div class="ikigai-dimension">
-      <h4>❤️ Lo que amas</h4>
-      {% for item in ikigai.ama %}
-        <p>{{ item }}</p>
+  <!-- Mentorías -->
+  {% if mentorias %}
+  <div class="card wide">
+    <h3>📌 Mentorías Agendadas</h3>
+    <div class="mentorias-grid">
+      {% for mentoria in mentorias %}
+      <div class="mentoria-card">
+        <h4>👨‍🏫 {{ mentoria.mentor.nombre }}</h4>
+        <p><strong>🎯 Especialidad:</strong> {{ mentoria.mentor.especialidad }}</p>
+        <p><strong>📅 Fecha:</strong> {{ mentoria.fecha }}</p>
+        <p><strong>⏰ Hora:</strong> {{ mentoria.hora }}</p>
+      </div>
       {% endfor %}
     </div>
-
-    <div class="ikigai-dimension">
-      <h4>💪 Lo que haces bien</h4>
-      {% for item in ikigai.bueno %}
-        <p>{{ item }}</p>
-      {% endfor %}
-    </div>
-
-    <div class="ikigai-dimension">
-      <h4>💰 Por lo que pueden pagarte</h4>
-      {% for item in ikigai.pagado %}
-        <p>{{ item }}</p>
-      {% endfor %}
-    </div>
-
-    <div class="ikigai-dimension">
-      <h4>🌍 Lo que el mundo necesita</h4>
-      {% for item in ikigai.necesario %}
-        <p>{{ item }}</p>
-      {% endfor %}
-    </div>
-  </section>
+  </div>
+  {% else %}
+    <p>❗ No has agendado mentorías aún.</p>
+  {% endif %}
+  {% if carreras %}
+  <h3>🎓 Carreras recomendadas según tu perfil</h3>
+  <div class="carreras-grid">
+    {% for carrera in carreras %}
+      <div class="carrera-card">
+        <h4>📘 {{ carrera.nombre }}</h4>
+        <p><strong>Área:</strong> {{ carrera.area }}</p>
+        <p>{{ carrera.descripcion }}</p>
+      </div>
+    {% endfor %}
+  </div>
 {% else %}
-  <p>Aún no has completado el test IKIGAI.</p>
+  <p>No hay recomendaciones aún. Completa el test para obtener sugerencias.</p>
 {% endif %}
 
-
+</div>
 {% endblock %}

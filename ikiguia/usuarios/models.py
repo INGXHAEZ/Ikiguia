@@ -35,3 +35,14 @@ class Mentor(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Mentoria(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    mentor = models.ForeignKey('Mentor', on_delete=models.CASCADE)
+    fecha = models.DateField()
+    hora = models.TimeField()
+    mensaje = models.TextField(blank=True)
+    confirmada = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.usuario.username} con {self.mentor.nombre} el {self.fecha} a las {self.hora}"

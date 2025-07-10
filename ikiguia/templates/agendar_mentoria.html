@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📅 Agendar mentoría</h2>
+
+<div class="mentoria-form-container">
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="mentor">Selecciona un mentor:</label>
+      {{ form.mentor }}
+    </div>
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      {{ form.fecha }}
+    </div>
+    <div class="form-group">
+      <label for="hora">Hora:</label>
+      {{ form.hora }}
+    </div>
+    <button type="submit" class="btn-agendar">Agendar</button>
+  </form>
+</div>
+{% endblock %}

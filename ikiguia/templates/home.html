@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-  <h2>Bienvenido a Ikiguía</h2>
-  <p>La plataforma que te acompaña en tu camino vocacional.</p>
+
+<section class="hero">
+  <div class="hero-text">
+    <span class="tagline">Descubre Tu Camino Profesional</span>
+    <h1>Encuentra Tu Propósito Profesional con Ikiguía</h1>
+    <p>Descubre tu vocación con IA, tests psicométricos y mentorías virtuales</p>
+    <a href="{% url 'registro' %}" class="cta-button">Comenzar Ahora →</a>
+  </div>
+  <div class="hero-image">
+    <img src="{% static 'img/ilustracion_ikiguia.jpeg' %}" alt="Ilustración Ikiguía">
+  </div>
+</section>
+
+<section class="servicios">
+  <h2>¿Qué puedes hacer con Ikiguía?</h2>
+  <p>Explora tu vocación con herramientas que combinan ciencia, propósito y tecnología</p>
+  
+  <div class="cards">
+    <div class="card">
+      <div class="emoji">🧠</div>
+      <h3>Test Psicométrico</h3>
+      <p>Evalúa tu perfil con preguntas basadas en psicología y ciencia vocacional.</p>
+    </div>
+    <div class="card">
+      <div class="emoji">🎯</div>
+      <h3>Recomendaciones de Carrera</h3>
+      <p>Descubre profesiones alineadas a tus pasiones e intereses.</p>
+    </div>
+    <div class="card">
+      <div class="emoji">💬</div>
+      <h3>Mentorías Virtuales</h3>
+      <p>Agenda sesiones con expertos para guiar tu camino profesional.</p>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

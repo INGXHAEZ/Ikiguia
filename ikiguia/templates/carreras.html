@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>🎓 Carreras recomendadas según tu perfil</h2>
+<h2 class="titulo-carreras">🎓 Carreras recomendadas según tu perfil</h2>
 
 {% if carreras %}
   <div class="carreras-grid">
     {% for carrera in carreras %}
       <div class="carrera-card">
-        <h3>{{ carrera.nombre }}</h3>
-        <p><strong>Área:</strong> {{ carrera.area }}</p>
-        <p>{{ carrera.descripcion }}</p>
+        <div class="carrera-header">
+          <h3>{{ carrera.nombre }}</h3>
+          <span class="badge-area">{{ carrera.area }}</span>
+        </div>
+        <p class="carrera-descripcion">{{ carrera.descripcion }}</p>
       </div>
     {% endfor %}
   </div>
 {% else %}
   <p>No hay recomendaciones aún. Completa el test IKIGAI para ver sugerencias.</p>
 {% endif %}
-
 {% endblock %}
