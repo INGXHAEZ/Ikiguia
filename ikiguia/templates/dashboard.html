@@ -6,21 +6,20 @@
   <p class="dashboard-subtitle">Tu camino vocacional comienza hoy</p>
 
   <div class="card-grid">
-   
     <a href="{% url 'test' %}" class="card-link">
-    <div class="card">
-      <h3>🧪Test Psicometrico</h3>
-    </div>
+      <div class="card">
+        <h3>🧪Test Psicometrico</h3>
+      </div>
     </a>
     <a href="{% url 'perfil_vocacional' %}" class="card-link">
-    <div class="card">
-      <h3>👤Perfil Vocacional</h3>
-    </div>
+      <div class="card">
+        <h3>👤Perfil Vocacional</h3>
+      </div>
     </a>
     <a href="{% url 'test_ikigai' %}" class="card-link">
-    <div class="card">
-      <h3>🧭Test IKIGAI</h3>
-    </div>
+      <div class="card">
+        <h3>🧭Test IKIGAI</h3>
+      </div>
     </a>
   </div>
 
@@ -99,21 +98,24 @@
   {% else %}
     <p>❗ No has agendado mentorías aún.</p>
   {% endif %}
+
   {% if carreras %}
   <h3>🎓 Carreras recomendadas según tu perfil</h3>
   <div class="carreras-grid">
-    {% for carrera in carreras %}
+    {% for carrera, afinidad in carreras %}
       <div class="carrera-card">
         <h4>📘 {{ carrera.nombre }}</h4>
         <p><strong>Área:</strong> {{ carrera.area }}</p>
         <p>{{ carrera.descripcion }}</p>
+        <p><strong>Afinidad:</strong> {{ afinidad }}%</p>
       </div>
     {% endfor %}
   </div>
-{% else %}
-  <p>No hay recomendaciones aún. Completa el test para obtener sugerencias.</p>
-{% endif %}
-{% if mentores %}
+  {% else %}
+    <p>No hay recomendaciones aún. Completa el test para obtener sugerencias.</p>
+  {% endif %}
+
+  {% if mentores %}
   <h3>👨‍🏫 Mentores recomendados</h3>
   <div class="mentores-grid">
     {% for mentor in mentores %}
@@ -132,9 +134,9 @@
       </div>
     {% endfor %}
   </div>
-{% else %}
-  <p>No se encontraron mentores recomendados. Asegúrate de completar tu test IKIGAI.</p>
-{% endif %}
+  {% else %}
+    <p>No se encontraron mentores recomendados. Asegúrate de completar tu test IKIGAI.</p>
+  {% endif %}
 
 </div>
 {% endblock %}

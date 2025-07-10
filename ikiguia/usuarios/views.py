@@ -30,14 +30,15 @@ def calcular_afinidad(ikigai, carrera):
     afinidad = 0
     peso_total = 0
 
-    habilidades = carrera.habilidades_clave.lower().split(",")
-    habilidades = [h.strip() for h in habilidades]
+    habilidades = [h.lower().strip() for h in carrera.habilidades_clave]
 
     for categoria, peso in pesos.items():
         claves = ikigai.get(categoria, [])
         for palabra in claves:
+            palabra = palabra.strip().lower()
             for habilidad in habilidades:
-                if palabra.strip().lower() in habilidad:
+                if palabra in habilidad:
+                    # print(f"Coincidencia: '{palabra}' en '{habilidad}' suma {peso} puntos")
                     afinidad += peso
         peso_total += peso * len(claves)
 
@@ -90,35 +91,33 @@ def dashboard(request):
         else:
             analisis = "Parece que necesitas mayor reflexión sobre tus intereses. Prueba el test IKIGAI para profundizar en tu propósito."
 
-    # Procesar resultado IKIGAI
     ikigai = {}
     carreras_afines = []
     mentores = []
 
     if ikigai_result:
         datos = ikigai_result.respuestas
+        # Limpieza de entradas vacías
         ikigai = {
-            'ama': [datos.get('ama_1', ''), datos.get('ama_2', '')],
-            'bueno': [datos.get('bueno_1', ''), datos.get('bueno_2', '')],
-            'pagado': [datos.get('pagado_1', ''), datos.get('pagado_2', '')],
-            'necesario': [datos.get('necesario_1', ''), datos.get('necesario_2', '')],
+            'ama': [d for d in [datos.get('ama_1', ''), datos.get('ama_2', '')] if d.strip()],
+            'bueno': [d for d in [datos.get('bueno_1', ''), datos.get('bueno_2', '')] if d.strip()],
+            'pagado': [d for d in [datos.get('pagado_1', ''), datos.get('pagado_2', '')] if d.strip()],
+            'necesario': [d for d in [datos.get('necesario_1', ''), datos.get('necesario_2', '')] if d.strip()],
         }
 
-        # 🔍 Recomendaciones de carrera basadas en palabras clave IKIGAI
-        palabras_clave = list(datos.values())
-        query = Q()
-        for palabra in palabras_clave:
-            query |= Q(habilidades_clave__icontains=palabra)
-
-        carreras = Carrera.objects.filter(query).distinct()
+        carreras = Carrera.objects.all()
 
         for carrera in carreras:
             afinidad = calcular_afinidad(ikigai, carrera)
-            carreras_afines.append((carrera, afinidad))
+            if afinidad > 0:
+                carreras_afines.append((carrera, afinidad))
 
         carreras_afines.sort(key=lambda x: x[1], reverse=True)
 
-        mentores = Mentor.objects.filter(carreras__in=carreras).distinct()
+        carreras_obj = [c[0] for c in carreras_afines]
+        mentores_qs = Mentor.objects.filter(carreras__in=carreras_obj).distinct()
+
+        mentores = list(mentores_qs)
 
     return render(request, 'dashboard.html', {
         'resultado': resultado,
@@ -128,7 +127,6 @@ def dashboard(request):
         'carreras': carreras_afines,
         'mentores': mentores,
     })
-
 
 @login_required
 def test_psicometrico(request):
@@ -154,23 +152,30 @@ def test_ikigai(request):
         form = IkigaiForm()
     return render(request, 'ikigai.html', {'form': form})
 
+
 @login_required
 def carreras_recomendadas(request):
     ikigai_result = IkigaiResult.objects.filter(usuario=request.user).last()
-    carreras = []
+    carreras_afines = []
 
     if ikigai_result:
-        respuestas = ikigai_result.respuestas
-        palabras_clave = list(respuestas.values())
-        print("Palabras clave del IKIGAI:", palabras_clave)  # <-- Añade esto
+        datos = ikigai_result.respuestas
+        ikigai = {
+            'ama': [d for d in [datos.get('ama_1', ''), datos.get('ama_2', '')] if d.strip()],
+            'bueno': [d for d in [datos.get('bueno_1', ''), datos.get('bueno_2', '')] if d.strip()],
+            'pagado': [d for d in [datos.get('pagado_1', ''), datos.get('pagado_2', '')] if d.strip()],
+            'necesario': [d for d in [datos.get('necesario_1', ''), datos.get('necesario_2', '')] if d.strip()],
+        }
 
-        query = Q()
-        for palabra in palabras_clave:
-            query |= Q(habilidades_clave__icontains=palabra)
+        carreras = Carrera.objects.all()
+        for carrera in carreras:
+            afinidad = calcular_afinidad(ikigai, carrera)
+            if afinidad > 0:
+                carreras_afines.append((carrera, afinidad))
 
-        carreras = Carrera.objects.filter(query).distinct()
+        carreras_afines.sort(key=lambda x: x[1], reverse=True)
 
-    return render(request, 'carreras.html', {'carreras': carreras})
+    return render(request, 'carreras.html', {'carreras': carreras_afines})
 
 @login_required
 def mentores_recomendados(request):
@@ -178,23 +183,29 @@ def mentores_recomendados(request):
     mentores_afines = []
 
     if ikigai_result:
-        respuestas = ikigai_result.respuestas
+        datos = ikigai_result.respuestas
         ikigai = {
-            'ama': [respuestas.get('ama_1', ''), respuestas.get('ama_2', '')],
-            'bueno': [respuestas.get('bueno_1', ''), respuestas.get('bueno_2', '')],
-            'pagado': [respuestas.get('pagado_1', ''), respuestas.get('pagado_2', '')],
-            'necesario': [respuestas.get('necesario_1', ''), respuestas.get('necesario_2', '')],
+            'ama': [d for d in [datos.get('ama_1', ''), datos.get('ama_2', '')] if d.strip()],
+            'bueno': [d for d in [datos.get('bueno_1', ''), datos.get('bueno_2', '')] if d.strip()],
+            'pagado': [d for d in [datos.get('pagado_1', ''), datos.get('pagado_2', '')] if d.strip()],
+            'necesario': [d for d in [datos.get('necesario_1', ''), datos.get('necesario_2', '')] if d.strip()],
         }
 
         carreras = Carrera.objects.all()
 
         for carrera in carreras:
             afinidad = calcular_afinidad(ikigai, carrera)
-            if afinidad >= 50:  # solo considera si hay al menos 50% de coincidencia
+            if afinidad >= 50:
                 for mentor in carrera.mentor_set.all():
                     mentores_afines.append((mentor, afinidad))
 
-        mentores_afines = list(set(mentores_afines))  # eliminar duplicados
+        # Eliminar duplicados (convertir a set funciona solo con hash, usar dict para evitar pérdida de afinidad)
+        temp = {}
+        for mentor, afinidad in mentores_afines:
+            if mentor.id not in temp or temp[mentor.id] < afinidad:
+                temp[mentor.id] = afinidad
+
+        mentores_afines = [(Mentor.objects.get(id=mid), af) for mid, af in temp.items()]
         mentores_afines.sort(key=lambda x: x[1], reverse=True)
 
     return render(request, 'mentores.html', {'mentores': mentores_afines})
