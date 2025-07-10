@@ -2,7 +2,7 @@ services:
   - type: web
     name: ikiguia
     env: python
-    buildCommand: ""
+    buildCommand: "pip install -r ikiguia/requirements.txt"
     startCommand: gunicorn ikiguia.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
