@@ -1,13 +1,17 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+import dj_database_url
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-*xd(snttr@y@e+%7+=^b)&%gvn@e5a%0q)hhjrn8(m6@47ey7+'
 
-DEBUG = False  # En producción debe estar en False
+DEBUG = False  
 
-ALLOWED_HOSTS = ['*']  # Cambia esto según tu dominio en producción
+ALLOWED_HOSTS = ['*'] 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,11 +54,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ikiguia.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=False 
+    )
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
