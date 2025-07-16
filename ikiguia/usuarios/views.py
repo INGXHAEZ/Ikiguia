@@ -233,7 +233,7 @@ def editar_perfil(request):
         form = UserProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('perfil')  
+            return redirect('perfil_vocacional')  
     else:
         form = UserProfileForm(instance=user)
     return render(request, 'editar_perfil.html', {'form': form})
