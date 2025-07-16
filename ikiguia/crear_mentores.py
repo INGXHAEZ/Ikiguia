@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ikiguia.settings")
 django.setup()
 
 from usuarios.models import Mentor
-from carreras.models import Carrera  # Ajusta si el modelo está en otro lugar
+from usuarios.models import Carrera  # ✅ Correcto
 
 mentores = [
     {
