@@ -349,3 +349,6 @@ def descargar_perfil_pdf(request):
     response['Content-Disposition'] = 'attachment; filename="perfil_vocacional.pdf"'
     pisa.CreatePDF(html, dest=response)
     return response
+
+def politica_proteccion_datos(request):
+    return render(request, 'politica_datos.html')
