@@ -199,7 +199,6 @@ def mentores_recomendados(request):
                 for mentor in carrera.mentor_set.all():
                     mentores_afines.append((mentor, afinidad))
 
-        # Eliminar duplicados (convertir a set funciona solo con hash, usar dict para evitar pérdida de afinidad)
         temp = {}
         for mentor, afinidad in mentores_afines:
             if mentor.id not in temp or temp[mentor.id] < afinidad:
