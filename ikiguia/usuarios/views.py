@@ -352,3 +352,6 @@ def descargar_perfil_pdf(request):
 
 def politica_proteccion_datos(request):
     return render(request, 'politica_datos.html')
+
+def politica_privacidad(request):
+    return render(request, 'politica_privacidad.html')
