@@ -355,3 +355,6 @@ def politica_proteccion_datos(request):
 
 def politica_privacidad(request):
     return render(request, 'politica_privacidad.html')
+
+def quienes_somos(request):
+    return render(request, 'quienes_somos.html')
