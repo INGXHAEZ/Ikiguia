@@ -1,0 +1,397 @@
+/* Reset y fuentes */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: #fff;
+  color: #000;
+  line-height: 1.6;
+}
+
+/* Colores base */
+:root {
+  --blue-dark: #0f1e63;
+  --orange: #ff7a59;
+  --light-purple: #d1ccf2;
+  --gray: #6b7280;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.logo {
+  background-color: var(--blue-dark);
+  color: #fff;
+  padding: 0.5rem 0.7rem;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.brand {
+  color: var(--blue-dark);
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-outline {
+  border: 2px solid var(--blue-dark);
+  background: transparent;
+  color: var(--blue-dark);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--orange);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--blue-dark);
+  color: #fff;
+  padding: 3rem 2rem;
+  flex-wrap: wrap;
+}
+
+.hero-content {
+  flex: 1 1 50%;
+  max-width: 600px;
+}
+
+.hero-content h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+.hero-content p {
+  color: var(--light-purple);
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  background-color: var(--orange);
+  color: #fff;
+  padding: 0.3rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.hero-image {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  border-radius: 1rem;
+}
+
+/* Features Section */
+.features {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: #fff;
+}
+
+.features h3 {
+  color: var(--blue-dark);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.features p {
+  color: var(--gray);
+  margin-bottom: 2rem;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  flex: 1 1 250px;
+  max-width: 300px;
+  text-align: left;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
+}
+
+.contenedor-principal {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.formulario {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7ff;
+  border-right: 2px solid #e0e0e0;
+}
+
+.formulario h2 {
+  font-size: 2rem;
+  color: #1f2d5a;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.ikiguia {
+  color: #1f2d5a;
+  font-weight: 700;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"] {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-iniciar {
+  padding: 0.8rem 2rem;
+  background-color: #f98461;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-iniciar:hover {
+  background-color: #e3704c;
+}
+
+.acciones {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.olvido {
+  color: #888;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.registro {
+  color: #1f2d5a;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.registro:hover {
+  text-decoration: underline;
+}
+
+.imagen-lado {
+  flex: 1;
+  background-color: #1f2d5a;
+  color: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen-lado h3 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.img-ilustracion {
+  max-width: 80%;
+  height: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.form-container {
+  flex: 1;
+  padding: 50px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #ddd;
+  box-shadow: inset -1px 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.form-container h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: #1a237e;
+  margin-bottom: 40px;
+}
+
+.form-container h2 span {
+  color: #1a237e;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 320px;
+}
+
+form input {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #f5f5f5;
+  box-shadow: 2px 2px 5px #ccc;
+  font-size: 14px;
+  color: #333;
+}
+
+form input::placeholder {
+  letter-spacing: 1px;
+  color: #999;
+}
+
+form button {
+  background-color: #ff8661;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px #ccc;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #ff7043;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #1a237e;
+}
+
+.login-link a {
+  color: #1a237e;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.image-container {
+  flex: 1;
+  background-color: #ff8661;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.image-container h3 {
+  font-size: 22px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+/* Estilos generales del navbar */
+.navbar {
+  background-color: #1A237E; /* Azul oscuro */
+  padding: 10px 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de enlaces dentro del navbar */
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+/* Hover sobre los enlaces */
+.navbar a:hover {
+  background-color: #3949AB; /* Azul un poco más claro */
+}
